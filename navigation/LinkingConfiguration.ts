@@ -10,21 +10,22 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
+      Login: 'login',
       Root: {
         screens: {
-          TabOne: {
+          Projects: {
             screens: {
-              TabOneScreen: 'one',
-            },
+              Projects: 'projects'
+            }
           },
-          TabTwo: {
+          Settings: {
             screens: {
-              TabTwoScreen: 'two',
-            },
-          },
-        },
+              Settings: 'settings'
+            }
+          }
+        }
       },
-      NotFound: '*',
-    },
-  },
+      NotFound: '*'
+    }
+  }
 };

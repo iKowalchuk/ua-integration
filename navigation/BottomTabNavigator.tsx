@@ -10,9 +10,9 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import ProjectsScreen from '../screens/ProjectsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import { BottomTabParamList, ProjectsParamList, SettingsParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -21,20 +21,21 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      initialRouteName="Projects"
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+    >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Projects"
+        component={TabProjectsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Settings"
+        component={TabSettingsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />
         }}
       />
     </BottomTab.Navigator>
@@ -49,30 +50,30 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const TabProjectsStack = createStackNavigator<ProjectsParamList>();
 
-function TabOneNavigator() {
+const TabProjectsNavigator = () => {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+    <TabProjectsStack.Navigator>
+      <TabProjectsStack.Screen
+        name="Projects"
+        component={ProjectsScreen}
+        options={{ headerTitle: 'Projects' }}
       />
-    </TabOneStack.Navigator>
+    </TabProjectsStack.Navigator>
   );
-}
+};
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const TabSettingsStack = createStackNavigator<SettingsParamList>();
 
-function TabTwoNavigator() {
+const TabSettingsNavigator = () => {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
+    <TabSettingsStack.Navigator>
+      <TabSettingsStack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ headerTitle: 'Settings' }}
       />
-    </TabTwoStack.Navigator>
+    </TabSettingsStack.Navigator>
   );
-}
+};

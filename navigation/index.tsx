@@ -3,10 +3,9 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 
 import Login from '../screens/LoginScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
@@ -15,7 +14,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import { useAuthContext } from '../hooks/useAuth';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   const { auth } = useAuthContext();
 
   if (auth.type === 'initial') {
@@ -23,10 +22,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   }
 
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration}>
       {auth.type === 'authenticated' ? <RootNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );

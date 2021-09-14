@@ -11,8 +11,6 @@ const login = async ({ login, password }: { login: string; password: string }): 
     token
   });
 
-  console.log(data);
-
   return toCamelCaseKeys({ token });
 };
 

@@ -4,8 +4,8 @@
  */
 
 export type AuthStackParamList = {
+  Projects: undefined;
   Login: undefined;
-  Root: undefined;
 };
 
 export type RootStackParamList = {
@@ -14,7 +14,7 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  Projects: undefined;
+  Control: undefined;
   Settings: undefined;
 };
 
@@ -24,4 +24,8 @@ export type ProjectsParamList = {
 
 export type SettingsParamList = {
   Settings: undefined;
+};
+
+export type ControlParamList = {
+  Control: undefined;
 };

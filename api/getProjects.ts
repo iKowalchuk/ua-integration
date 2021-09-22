@@ -24,7 +24,13 @@ const getProjects = async (): Promise<Project[]> => {
     cmd: 'get_all_projects'
   });
 
-  return toCamelCaseKeys(data).cmdResult;
+  if (typeof data !== 'object') {
+    throw new Error();
+  }
+
+  const res = toCamelCaseKeys(data);
+
+  return res.cmdResult;
 };
 
 export default getProjects;

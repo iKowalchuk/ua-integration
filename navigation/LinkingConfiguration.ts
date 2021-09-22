@@ -11,11 +11,12 @@ export default {
   config: {
     screens: {
       Login: 'login',
+      Projects: 'projects',
       Root: {
         screens: {
-          Projects: {
+          Control: {
             screens: {
-              Projects: 'projects'
+              Control: 'control'
             }
           },
           Settings: {

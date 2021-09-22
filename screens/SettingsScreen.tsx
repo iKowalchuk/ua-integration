@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { useAuthContext } from '../hooks/useAuth';
 
-export default function SettingsScreen() {
+const SettingsScreen = () => {
   const { removeAuth } = useAuthContext();
 
   const handleLogout = async () => {
@@ -19,7 +19,7 @@ export default function SettingsScreen() {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -45,3 +45,5 @@ const styles = StyleSheet.create({
     color: '#2e78b7'
   }
 });
+
+export default SettingsScreen;

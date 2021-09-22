@@ -10,9 +10,9 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ProjectsScreen from '../screens/ProjectsScreen';
+import ControlScreen from '../screens/ControlScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import { BottomTabParamList, ProjectsParamList, SettingsParamList } from '../types';
+import { BottomTabParamList, ControlParamList, SettingsParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -21,21 +21,21 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Projects"
+      initialRouteName="Control"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
-        name="Projects"
-        component={TabProjectsNavigator}
+        name="Control"
+        component={TabControlNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-key-outline" color={color} />
         }}
       />
       <BottomTab.Screen
         name="Settings"
         component={TabSettingsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-settings-outline" color={color} />
         }}
       />
     </BottomTab.Navigator>
@@ -50,17 +50,17 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabProjectsStack = createStackNavigator<ProjectsParamList>();
+const TabControlStack = createStackNavigator<ControlParamList>();
 
-const TabProjectsNavigator = () => {
+const TabControlNavigator = () => {
   return (
-    <TabProjectsStack.Navigator>
-      <TabProjectsStack.Screen
-        name="Projects"
-        component={ProjectsScreen}
-        options={{ headerTitle: 'Projects' }}
+    <TabControlStack.Navigator>
+      <TabControlStack.Screen
+        name="Control"
+        component={ControlScreen}
+        options={{ headerTitle: 'Control' }}
       />
-    </TabProjectsStack.Navigator>
+    </TabControlStack.Navigator>
   );
 };
 

@@ -1,26 +1,41 @@
-import * as React from 'react';
-import { Box, Button, Center, FormControl, Heading, Input, VStack } from 'native-base';
+import React, { useState } from 'react';
+import { Box, Button, Center, FormControl, Heading, Input, useToast, VStack } from 'native-base';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { AuthStackParamList } from '../types';
 import { useAuthContext } from '../hooks/useAuth';
 import login from '../api/login';
 
-export default function LoginScreen({ navigation }: StackScreenProps<AuthStackParamList, 'Login'>) {
+const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login'>) => {
   const { setAuth } = useAuthContext();
+  const toast = useToast();
 
-  const [formData, setFormData] = React.useState<{ login: string; password: string }>({
+  const [formData, setFormData] = useState<{ login: string; password: string }>({
     login: 'admin',
     password: 'Passw0rd'
   });
-  const [isSubmit, setIsSubmit] = React.useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
     setIsSubmit(true);
 
-    if (formData.login && formData.password) {
+    if (!formData.login && !formData.password) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
       const { token } = await login({ login: formData.login, password: formData.password });
       setAuth(token);
+    } catch {
+      toast.show({
+        title: 'Incorrect username or password.',
+        status: 'error',
+        placement: 'top'
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,6 +55,7 @@ export default function LoginScreen({ navigation }: StackScreenProps<AuthStackPa
               Login
             </FormControl.Label>
             <Input
+              size="xl"
               value={formData.login}
               onChangeText={(value) => setFormData({ ...formData, login: value })}
             />
@@ -51,6 +67,7 @@ export default function LoginScreen({ navigation }: StackScreenProps<AuthStackPa
               Password
             </FormControl.Label>
             <Input
+              size="xl"
               type="password"
               value={formData.password}
               onChangeText={(value) => setFormData({ ...formData, password: value })}
@@ -58,11 +75,19 @@ export default function LoginScreen({ navigation }: StackScreenProps<AuthStackPa
             <FormControl.ErrorMessage>Password is required</FormControl.ErrorMessage>
           </FormControl>
 
-          <Button mt={5} colorScheme="cyan" _text={{ color: 'white' }} onPress={handleLogin}>
+          <Button
+            mt={5}
+            colorScheme="cyan"
+            _text={{ color: 'white' }}
+            onPress={handleLogin}
+            isLoading={isLoading}
+          >
             Login
           </Button>
         </VStack>
       </Box>
     </Center>
   );
-}
+};
+
+export default LoginScreen;

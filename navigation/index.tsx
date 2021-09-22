@@ -3,18 +3,20 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { ColorSchemeName } from 'react-native';
 
-import Login from '../screens/LoginScreen';
+import ProjectsScreen from '../screens/ProjectsScreen';
+import LoginScreen from '../screens/LoginScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { AuthStackParamList, RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import { useAuthContext } from '../hooks/useAuth';
 
-export default function Navigation() {
+export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { auth } = useAuthContext();
 
   if (auth.type === 'initial') {
@@ -22,7 +24,10 @@ export default function Navigation() {
   }
 
   return (
-    <NavigationContainer linking={LinkingConfiguration}>
+    <NavigationContainer
+      linking={LinkingConfiguration}
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+    >
       {auth.type === 'authenticated' ? <RootNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
@@ -35,7 +40,8 @@ const AuthStack = createStackNavigator<AuthStackParamList>();
 const AuthNavigator = () => {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="Projects" component={ProjectsScreen} />
+      <AuthStack.Screen name="Login" component={LoginScreen} />
     </AuthStack.Navigator>
   );
 };

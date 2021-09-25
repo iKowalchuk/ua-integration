@@ -28,14 +28,14 @@ export default function BottomTabNavigator() {
         name="Control"
         component={TabControlNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-key-outline" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-key-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Settings"
         component={TabSettingsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-settings-outline" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-settings-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>

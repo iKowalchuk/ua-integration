@@ -1,8 +1,87 @@
-import React from 'react';
-import { Box } from 'native-base';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Box, Button, Center, Heading, SectionList } from 'native-base';
+
+import { useAuthContext } from '../hooks/useAuth';
+import getMenu, { Menu } from '../api/getMenu';
+import runCommand from '../api/runCommand';
 
 const ControlScreen = () => {
-  return <Box>Control</Box>;
+  const { auth } = useAuthContext();
+
+  const [menu, setMenu] = useState<Menu[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRunCommand, setIsRunCommand] = useState<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    getMenuRequest();
+  }, []);
+
+  const getMenuRequest = async () => {
+    if (auth.type !== 'authenticated') {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const data = await getMenu({ token: auth.token });
+      setMenu(data);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sectionMenu = useMemo(() => {
+    return Object.entries(
+      menu.reduce(
+        (acc: { [key: string]: Menu[] }, { nameGroup, ...other }) =>
+          Object.assign(acc, {
+            [nameGroup]: [...(acc[nameGroup] || []), { nameGroup, ...other }],
+          }),
+        {}
+      )
+    ).map(([key, value]) => ({ title: key, data: value }));
+  }, [menu]);
+
+  const handleClick = async (command: string) => {
+    if (auth.type !== 'authenticated') {
+      return;
+    }
+
+    try {
+      setIsRunCommand({ ...isRunCommand, [command]: true });
+      await runCommand({ token: auth.token, command });
+    } finally {
+      setIsRunCommand({ ...isRunCommand, [command]: false });
+    }
+  };
+
+  if (isLoading) {
+    return null;
+  }
+
+  return (
+    <Box safeArea flex="1" p="4">
+      <SectionList
+        sections={sectionMenu}
+        renderItem={({ item }) => (
+          <Button
+            my={1}
+            onPress={() => handleClick(item.pCmdIn)}
+            isLoading={isRunCommand[item.pCmdIn]}
+          >
+            {item.descr}
+          </Button>
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <Center>
+            <Heading fontSize="xl" mt="8" pb="4">
+              {title}
+            </Heading>
+          </Center>
+        )}
+      />
+    </Box>
+  );
 };
 
 export default ControlScreen;

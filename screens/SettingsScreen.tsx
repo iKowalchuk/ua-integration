@@ -1,49 +1,63 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Avatar, Button, Center, Heading, Text } from 'native-base';
 
-import { Text, View } from '../components/Themed';
 import { useAuthContext } from '../hooks/useAuth';
+import getUser, { User } from '../api/getUser';
+import logout from '../api/logout';
 
 const SettingsScreen = () => {
-  const { removeAuth } = useAuthContext();
+  const { auth, removeAuth } = useAuthContext();
 
-  const handleLogout = async () => {
-    removeAuth();
+  const [user, setUser] = useState<User>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    getUserRequest();
+  }, []);
+
+  const getUserRequest = async () => {
+    if (auth.type !== 'authenticated') {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const data = await getUser({ token: auth.token });
+      setUser(data);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+  const handleLogout = async () => {
+    if (auth.type !== 'authenticated') {
+      return;
+    }
+
+    try {
+      await logout({ token: auth.token });
+      await removeAuth();
+    } catch {}
+  };
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
-      <TouchableOpacity onPress={handleLogout} style={styles.link}>
-        <Text style={styles.linkText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <Center safeArea flex={1}>
+      <Avatar bg="green.500" size="xl">
+        {user?.descr[0].toUpperCase() || '-'}
+      </Avatar>
+      <Center mt={15}>
+        <Heading size="md">{user?.descr || '-'}</Heading>
+        <Text fontSize="sm">{user?.nameHouse || '-'}</Text>
+      </Center>
+      <Button variant="outline" onPress={handleLogout} mt={15}>
+        Logout
+      </Button>
+    </Center>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%'
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7'
-  }
-});
 
 export default SettingsScreen;

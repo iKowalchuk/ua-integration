@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Heading, HStack, Spinner } from 'native-base';
+import { Box, Button, Heading } from 'native-base';
 import { FlatList } from 'react-native-gesture-handler';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -48,7 +48,6 @@ const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Pr
               {item.descr}
             </Button>
           )}
-          keyExtractor={(item) => item.id}
         />
       </Box>
     </Box>

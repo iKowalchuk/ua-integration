@@ -21,7 +21,7 @@ export type Project = {
 
 const getProjects = async (): Promise<Project[]> => {
   const { data } = await axios.post('https://interlock.pp.ua/api/ios.php', {
-    cmd: 'get_all_projects'
+    cmd: 'get_all_projects',
   });
 
   if (typeof data !== 'object') {

@@ -16,17 +16,17 @@ export default {
         screens: {
           Control: {
             screens: {
-              Control: 'control'
-            }
+              Control: 'control',
+            },
           },
           Settings: {
             screens: {
-              Settings: 'settings'
-            }
-          }
-        }
+              Settings: 'settings',
+            },
+          },
+        },
       },
-      NotFound: '*'
-    }
-  }
+      NotFound: '*',
+    },
+  },
 };

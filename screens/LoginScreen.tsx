@@ -12,7 +12,7 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
 
   const [formData, setFormData] = useState<{ login: string; password: string }>({
     login: 'admin',
-    password: 'Passw0rd'
+    password: 'Passw0rd',
   });
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
       toast.show({
         title: 'Incorrect username or password.',
         status: 'error',
-        placement: 'top'
+        placement: 'top',
       });
     } finally {
       setIsLoading(false);

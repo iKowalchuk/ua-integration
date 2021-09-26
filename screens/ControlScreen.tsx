@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Button, Center, Heading, SectionList } from 'native-base';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, Center, Heading, SectionList } from 'native-base';
 
 import { useAuthContext } from '../hooks/useAuth';
 import getMenu, { Menu } from '../api/getMenu';
@@ -60,27 +60,28 @@ const ControlScreen = () => {
   }
 
   return (
-    <Box safeArea flex="1" p="4">
-      <SectionList
-        sections={sectionMenu}
-        renderItem={({ item }) => (
-          <Button
-            my={1}
-            onPress={() => handleClick(item.pCmdIn)}
-            isLoading={isRunCommand[item.pCmdIn]}
-          >
-            {item.descr}
-          </Button>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Center>
-            <Heading fontSize="xl" mt="8" pb="4">
-              {title}
-            </Heading>
-          </Center>
-        )}
-      />
-    </Box>
+    <SectionList
+      backgroundColor="light.50"
+      sections={sectionMenu}
+      renderItem={({ item }) => (
+        <Button
+          mx={4}
+          mb={2}
+          onPress={() => handleClick(item.pCmdIn)}
+          isLoading={isRunCommand[item.pCmdIn]}
+        >
+          {item.descr}
+        </Button>
+      )}
+      renderSectionHeader={({ section: { title } }) => (
+        <Center backgroundColor="light.50">
+          <Heading fontSize="xl" mt="5" mb={4}>
+            {title}
+          </Heading>
+        </Center>
+      )}
+      keyExtractor={(item) => item.pCmdIn}
+    />
   );
 };
 

@@ -11,8 +11,8 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
   const toast = useToast();
 
   const [formData, setFormData] = useState<{ login: string; password: string }>({
-    login: 'admin',
-    password: 'Passw0rd',
+    login: '', // admin
+    password: '', // Passw0rd
   });
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);

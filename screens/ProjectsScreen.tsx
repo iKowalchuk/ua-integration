@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Heading } from 'native-base';
-import { FlatList } from 'react-native-gesture-handler';
+import { Box, Button, Heading, FlatList } from 'native-base';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import getProjects, { Project } from '../api/getProjects';
@@ -44,10 +43,11 @@ const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Pr
         <FlatList
           data={projects}
           renderItem={({ item }) => (
-            <Button my={1} onPress={handleClick}>
+            <Button mb={2} onPress={handleClick}>
               {item.descr}
             </Button>
           )}
+          keyExtractor={(item) => item.descr + item.id}
         />
       </Box>
     </Box>

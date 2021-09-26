@@ -10,6 +10,7 @@ const SettingsScreen = () => {
 
   const [user, setUser] = useState<User>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLogout, setIsLogout] = useState<boolean>(false);
 
   useEffect(() => {
     getUserRequest();
@@ -35,9 +36,12 @@ const SettingsScreen = () => {
     }
 
     try {
+      setIsLogout(true);
       await logout({ token: auth.token });
       await removeAuth();
-    } catch {}
+    } finally {
+      setIsLogout(false);
+    }
   };
 
   if (isLoading) {
@@ -45,15 +49,15 @@ const SettingsScreen = () => {
   }
 
   return (
-    <Center safeArea flex={1}>
+    <Center flex={1} backgroundColor="light.50">
       <Avatar bg="green.500" size="xl">
-        {user?.descr[0].toUpperCase() || '-'}
+        {user?.descr?.slice(0, 2).toUpperCase() || '-'}
       </Avatar>
       <Center mt={15}>
         <Heading size="md">{user?.descr || '-'}</Heading>
         <Text fontSize="sm">{user?.nameHouse || '-'}</Text>
       </Center>
-      <Button variant="outline" onPress={handleLogout} mt={15}>
+      <Button variant="outline" onPress={handleLogout} mt={15} isLoading={isLogout}>
         Logout
       </Button>
     </Center>

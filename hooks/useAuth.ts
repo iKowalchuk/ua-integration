@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import constate from 'constate';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export const TOKEN_KEY = '@token';
+import { TOKEN_KEY } from '../constants/App';
 
 type AuthState =
   | { type: 'initial' }
@@ -11,7 +10,7 @@ type AuthState =
 
 const useAuth = () => {
   const [auth, setAuthState] = useState<AuthState>({
-    type: 'initial'
+    type: 'initial',
   });
 
   const getAuthState = async () => {
@@ -49,7 +48,7 @@ const useAuth = () => {
     auth,
     getAuthState,
     setAuth,
-    removeAuth
+    removeAuth,
   } as const;
 };
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 import toCamelCaseKeys from '../utils/toCamelCaseKeys';
 
 export type Menu = {
@@ -24,7 +24,7 @@ export type Menu = {
 };
 
 const getMenu = async ({ token }: { token: string }): Promise<Menu[]> => {
-  const { data } = await axios.post('https://interlock.pp.ua/api/ios.php', {
+  const { data } = await api.post('/api/ios.php', {
     cmd: 'get_my_menu',
     token,
   });

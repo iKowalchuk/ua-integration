@@ -4,6 +4,8 @@ import { Avatar, Button, Center, Heading, Text } from 'native-base';
 import { useAuthContext } from '../hooks/useAuth';
 import getUser, { User } from '../api/getUser';
 import logout from '../api/logout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL_KEY } from '../constants/App';
 
 const SettingsScreen = () => {
   const { auth, removeAuth } = useAuthContext();
@@ -38,6 +40,7 @@ const SettingsScreen = () => {
     try {
       setIsLogout(true);
       await logout({ token: auth.token });
+      await AsyncStorage.removeItem(BASE_URL_KEY);
       await removeAuth();
     } finally {
       setIsLogout(false);
@@ -53,11 +56,11 @@ const SettingsScreen = () => {
       <Avatar bg="green.500" size="xl">
         {user?.descr?.slice(0, 2).toUpperCase() || '-'}
       </Avatar>
-      <Center mt={15}>
+      <Center mt={18}>
         <Heading size="md">{user?.descr || '-'}</Heading>
         <Text fontSize="sm">{user?.nameHouse || '-'}</Text>
       </Center>
-      <Button variant="outline" onPress={handleLogout} mt={15} isLoading={isLogout}>
+      <Button variant="outline" onPress={handleLogout} mt={18} isLoading={isLogout}>
         Logout
       </Button>
     </Center>

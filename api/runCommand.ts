@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 const runCommand = async ({
   token,
@@ -7,7 +7,7 @@ const runCommand = async ({
   token: string;
   command: string;
 }): Promise<void> => {
-  const { data } = await axios.post('https://interlock.pp.ua/api/ios.php', {
+  const { data } = await api.post('/api/ios.php', {
     cmd: 'run_cmd',
     name_cmd: command,
     token,

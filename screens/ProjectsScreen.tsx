@@ -4,6 +4,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import getProjects, { Project } from '../api/getProjects';
 import { AuthStackParamList } from '../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL_KEY } from '../constants/App';
 
 const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Projects'>) => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -23,7 +25,8 @@ const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Pr
     }
   };
 
-  const handleClick = () => {
+  const handleClick = async (baseURL: string) => {
+    await AsyncStorage.setItem(BASE_URL_KEY, baseURL);
     navigation.push('Login');
   };
 
@@ -43,7 +46,7 @@ const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Pr
         <FlatList
           data={projects}
           renderItem={({ item }) => (
-            <Button mb={2} onPress={handleClick}>
+            <Button mb={2} onPress={() => handleClick(item.urlSite)}>
               {item.descr}
             </Button>
           )}

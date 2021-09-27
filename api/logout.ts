@@ -1,7 +1,7 @@
-import axios from 'axios';
+import api from './api';
 
 const logout = async ({ token }: { token: string }): Promise<void> => {
-  const { data } = await axios.post('https://interlock.pp.ua/api/ios.php', {
+  const { data } = await api.post('/api/ios.php', {
     cmd: 'user_user_del_key',
     token,
   });

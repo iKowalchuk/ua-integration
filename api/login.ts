@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
+import api from './api';
 import toCamelCaseKeys from '../utils/toCamelCaseKeys';
 
 type Login = {
@@ -24,10 +24,10 @@ type Login = {
 const login = async ({ login, password }: { login: string; password: string }): Promise<Login> => {
   const token = uuidv4();
 
-  const { data } = await axios.post('https://interlock.pp.ua/api/ios.php', {
+  const { data } = await api.post('/api/ios.php', {
     login,
     password,
-    token
+    token,
   });
 
   if (typeof data !== 'object') {

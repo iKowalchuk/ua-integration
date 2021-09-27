@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 import toCamelCaseKeys from '../utils/toCamelCaseKeys';
 
 export type User = {
@@ -18,7 +18,7 @@ export type User = {
 };
 
 const getUser = async ({ token }: { token: string }): Promise<User> => {
-  const { data } = await axios.post('https://interlock.pp.ua/api/ios.php', {
+  const { data } = await api.post('/api/ios.php', {
     cmd: 'user_get_key',
     token,
   });

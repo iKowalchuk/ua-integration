@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NativeBaseProvider } from 'native-base';
+import { extendTheme, NativeBaseProvider } from 'native-base';
 
 import { AuthProvider } from './hooks/useAuth';
 import useCachedResources from './hooks/useCachedResources';
@@ -13,12 +13,18 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
+  const config = {
+    initialColorMode: colorScheme,
+  };
+
+  const customTheme = extendTheme({ config });
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <SafeAreaProvider>
-        <NativeBaseProvider>
+        <NativeBaseProvider theme={customTheme}>
           <AuthProvider>
             <Navigation colorScheme={colorScheme} />
             <StatusBar />

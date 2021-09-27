@@ -2,7 +2,7 @@
   "expo": {
     "name": "interlock",
     "slug": "interlock",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -19,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.interlock.pp.ua.interlock"
     },
     "android": {
       "adaptiveIcon": {

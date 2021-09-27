@@ -49,7 +49,7 @@ const SettingsScreen = () => {
   }
 
   return (
-    <Center flex={1} backgroundColor="light.50">
+    <Center flex={1}>
       <Avatar bg="green.500" size="xl">
         {user?.descr?.slice(0, 2).toUpperCase() || '-'}
       </Avatar>

@@ -61,7 +61,6 @@ const ControlScreen = () => {
 
   return (
     <SectionList
-      backgroundColor="light.50"
       sections={sectionMenu}
       renderItem={({ item }) => (
         <Button
@@ -74,13 +73,14 @@ const ControlScreen = () => {
         </Button>
       )}
       renderSectionHeader={({ section: { title } }) => (
-        <Center backgroundColor="light.50">
+        <Center>
           <Heading fontSize="xl" mt="5" mb={4}>
             {title}
           </Heading>
         </Center>
       )}
       keyExtractor={(item) => item.pCmdIn}
+      stickySectionHeadersEnabled={false}
     />
   );
 };

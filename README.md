@@ -1,4 +1,4 @@
-# interlock
+# Interlock
 
 ## Resources
 1. https://reactjs.org

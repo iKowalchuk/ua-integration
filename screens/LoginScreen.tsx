@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -16,9 +16,11 @@ import { Platform } from 'react-native';
 import { AuthStackParamList } from '../types';
 import { useAuthContext } from '../hooks/useAuth';
 import login from '../api/login';
+import { useProjectsContext } from '../hooks/useProjects';
 
 const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login'>) => {
   const { setAuth } = useAuthContext();
+  const { project, projectTokens, setProjectToken } = useProjectsContext();
   const toast = useToast();
 
   const [formData, setFormData] = useState<{ login: string; password: string }>({
@@ -39,6 +41,7 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
       setIsLoading(true);
       const { token } = await login({ login: formData.login, password: formData.password });
       setAuth(token);
+      setProjectToken(token);
     } catch {
       toast.show({
         title: 'Incorrect username or password.',
@@ -49,6 +52,18 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!project) {
+      navigation.push('Projects');
+      return;
+    }
+
+    const token = projectTokens?.find(item => item.projectId === project?.id)?.token;
+    if (token) {
+      setAuth(token);
+    }
+  }, []);
 
   return (
     <KeyboardAvoidingView flex={1} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -69,7 +84,7 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
               <Input
                 size="xl"
                 value={formData.login}
-                onChangeText={(value) => setFormData({ ...formData, login: value })}
+                onChangeText={value => setFormData({ ...formData, login: value })}
               />
               <FormControl.ErrorMessage>Login is required</FormControl.ErrorMessage>
             </FormControl>
@@ -82,7 +97,7 @@ const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login
                 size="xl"
                 type="password"
                 value={formData.password}
-                onChangeText={(value) => setFormData({ ...formData, password: value })}
+                onChangeText={value => setFormData({ ...formData, password: value })}
               />
               <FormControl.ErrorMessage>Password is required</FormControl.ErrorMessage>
             </FormControl>

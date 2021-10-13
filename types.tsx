@@ -15,6 +15,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   Control: undefined;
+  Projects: undefined;
   Settings: undefined;
 };
 

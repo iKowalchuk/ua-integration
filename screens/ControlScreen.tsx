@@ -30,6 +30,19 @@ const ControlScreen = () => {
     }
   };
 
+  const handleClick = async (command: string) => {
+    if (auth.type !== 'authenticated') {
+      return;
+    }
+
+    try {
+      setIsRunCommand((state) => ({ ...state, [command]: true }));
+      await runCommand({ token: auth.token, command });
+    } finally {
+      setIsRunCommand((state) => ({ ...state, [command]: false }));
+    }
+  };
+
   const sectionMenu = useMemo(() => {
     return Object.entries(
       menu.reduce(
@@ -41,19 +54,6 @@ const ControlScreen = () => {
       )
     ).map(([key, value]) => ({ title: key, data: value }));
   }, [menu]);
-
-  const handleClick = async (command: string) => {
-    if (auth.type !== 'authenticated') {
-      return;
-    }
-
-    try {
-      setIsRunCommand({ ...isRunCommand, [command]: true });
-      await runCommand({ token: auth.token, command });
-    } finally {
-      setIsRunCommand({ ...isRunCommand, [command]: false });
-    }
-  };
 
   if (isLoading) {
     return null;

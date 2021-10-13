@@ -8,11 +8,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
+import {
+  BottomTabParamList,
+  ControlParamList,
+  ProjectsParamList,
+  SettingsParamList,
+} from '../types';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ControlScreen from '../screens/ControlScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import { BottomTabParamList, ControlParamList, SettingsParamList } from '../types';
+import ProjectsScreen from '../screens/ProjectsScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -29,6 +35,13 @@ export default function BottomTabNavigator() {
         component={TabControlNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-key-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Projects"
+        component={TabProjectsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-business-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -61,6 +74,20 @@ const TabControlNavigator = () => {
         options={{ headerTitle: 'Control' }}
       />
     </TabControlStack.Navigator>
+  );
+};
+
+const TabProjectsStack = createStackNavigator<ProjectsParamList>();
+
+const TabProjectsNavigator = () => {
+  return (
+    <TabProjectsStack.Navigator>
+      <TabProjectsStack.Screen
+        name="Projects"
+        component={ProjectsScreen}
+        options={{ headerTitle: 'Projects' }}
+      />
+    </TabProjectsStack.Navigator>
   );
 };
 

@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Heading, FlatList } from 'native-base';
 import { StackScreenProps } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
+import { useProjectsContext } from '../hooks/useProjects';
 import getProjects, { Project } from '../api/getProjects';
 import { AuthStackParamList } from '../types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL_KEY } from '../constants/App';
+import { useAuthContext } from '../hooks/useAuth';
 
 const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Projects'>) => {
+  const { auth, removeAuth } = useAuthContext();
+  const { projectTokens, setProject } = useProjectsContext();
+
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -25,13 +29,67 @@ const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Pr
     }
   };
 
-  const handleClick = async (baseURL: string) => {
-    await AsyncStorage.setItem(BASE_URL_KEY, baseURL);
+  const handleClick = async (project: Project) => {
+    await removeAuth();
+    await setProject(project);
     navigation.push('Login');
   };
 
+  const authProjects = useMemo(() => {
+    return projects.filter(
+      project => !!projectTokens.find(item => item.projectId === project.id)?.token
+    );
+  }, [projects, projectTokens]);
+
+  const noAuthProjects = useMemo(() => {
+    return projects.filter(
+      project => !projectTokens.find(item => item.projectId === project.id)?.token
+    );
+  }, [projects, projectTokens]);
+
   if (isLoading) {
     return null;
+  }
+
+  const Tab = createMaterialTopTabNavigator();
+
+  if (auth.type === 'authenticated') {
+    return (
+      <Tab.Navigator>
+        <Tab.Screen
+          name="My"
+          component={() => (
+            <Box mt="5">
+              <FlatList
+                data={authProjects}
+                renderItem={({ item }) => (
+                  <Button mx={4} mb={2} onPress={() => handleClick(item)}>
+                    {item.descr}
+                  </Button>
+                )}
+                keyExtractor={item => item.descr + item.id}
+              />
+            </Box>
+          )}
+        />
+        <Tab.Screen
+          name="Other"
+          component={() => (
+            <Box mt="5">
+              <FlatList
+                data={noAuthProjects}
+                renderItem={({ item }) => (
+                  <Button mx={4} mb={2} onPress={() => handleClick(item)}>
+                    {item.descr}
+                  </Button>
+                )}
+                keyExtractor={item => item.descr + item.id}
+              />
+            </Box>
+          )}
+        />
+      </Tab.Navigator>
+    );
   }
 
   return (
@@ -46,11 +104,11 @@ const ProjectsScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Pr
         <FlatList
           data={projects}
           renderItem={({ item }) => (
-            <Button mb={2} onPress={() => handleClick(item.urlSite)}>
+            <Button mb={2} onPress={() => handleClick(item)}>
               {item.descr}
             </Button>
           )}
-          keyExtractor={(item) => item.descr + item.id}
+          keyExtractor={item => item.descr + item.id}
         />
       </Box>
     </Box>

@@ -4,6 +4,7 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 
+import { ProjectsProvider } from './hooks/useProjects';
 import { AuthProvider } from './hooks/useAuth';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -25,10 +26,12 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NativeBaseProvider theme={customTheme}>
-          <AuthProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </AuthProvider>
+          <ProjectsProvider>
+            <AuthProvider>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </AuthProvider>
+          </ProjectsProvider>
         </NativeBaseProvider>
       </SafeAreaProvider>
     );

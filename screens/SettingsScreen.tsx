@@ -4,11 +4,11 @@ import { Avatar, Button, Center, Heading, Text } from 'native-base';
 import { useAuthContext } from '../hooks/useAuth';
 import getUser, { User } from '../api/getUser';
 import logout from '../api/logout';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL_KEY } from '../constants/App';
+import { useProjectsContext } from '../hooks/useProjects';
 
 const SettingsScreen = () => {
   const { auth, removeAuth } = useAuthContext();
+  const { removeProject, removeProjectToken } = useProjectsContext();
 
   const [user, setUser] = useState<User>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,8 +40,9 @@ const SettingsScreen = () => {
     try {
       setIsLogout(true);
       await logout({ token: auth.token });
-      await AsyncStorage.removeItem(BASE_URL_KEY);
       await removeAuth();
+      await removeProject();
+      await removeProjectToken();
     } finally {
       setIsLogout(false);
     }

@@ -19,6 +19,16 @@ export default {
               Control: 'control',
             },
           },
+          Projects: {
+            screens: {
+              Projects: {
+                screens: {
+                  My: 'projects/my',
+                  Other: 'projects/other',
+                },
+              },
+            },
+          },
           Settings: {
             screens: {
               Settings: 'settings',

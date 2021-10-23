@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -15,6 +14,7 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const config = {
+    useSystemColorMode: false,
     initialColorMode: colorScheme,
   };
 
@@ -22,18 +22,18 @@ export default function App() {
 
   if (!isLoadingComplete) {
     return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <NativeBaseProvider theme={customTheme}>
-          <ProjectsProvider>
-            <AuthProvider>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar />
-            </AuthProvider>
-          </ProjectsProvider>
-        </NativeBaseProvider>
-      </SafeAreaProvider>
-    );
   }
+
+  return (
+    <SafeAreaProvider>
+      <NativeBaseProvider theme={customTheme}>
+        <ProjectsProvider>
+          <AuthProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </AuthProvider>
+        </ProjectsProvider>
+      </NativeBaseProvider>
+    </SafeAreaProvider>
+  );
 }

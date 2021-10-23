@@ -5,7 +5,9 @@ import { useAuthContext } from '../hooks/useAuth';
 import getMenu, { Menu } from '../api/getMenu';
 import runCommand from '../api/runCommand';
 
-const ControlScreen = () => {
+import { RootTabScreenProps } from '../types';
+
+const ControlScreen = ({ navigation }: RootTabScreenProps<'Control'>) => {
   const { auth } = useAuthContext();
 
   const [menu, setMenu] = useState<Menu[]>([]);
@@ -36,10 +38,10 @@ const ControlScreen = () => {
     }
 
     try {
-      setIsRunCommand((state) => ({ ...state, [command]: true }));
+      setIsRunCommand(state => ({ ...state, [command]: true }));
       await runCommand({ token: auth.token, command });
     } finally {
-      setIsRunCommand((state) => ({ ...state, [command]: false }));
+      setIsRunCommand(state => ({ ...state, [command]: false }));
     }
   };
 
@@ -79,7 +81,7 @@ const ControlScreen = () => {
           </Heading>
         </Center>
       )}
-      keyExtractor={(item) => item.pCmdIn}
+      keyExtractor={item => item.pCmdIn}
       stickySectionHeadersEnabled={false}
     />
   );

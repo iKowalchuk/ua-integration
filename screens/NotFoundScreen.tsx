@@ -1,10 +1,9 @@
 import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 import { Button, Center, Heading } from 'native-base';
 
-import { RootStackParamList } from '../types';
+import { RootStackScreenProps } from '../types';
 
-const NotFoundScreen = ({ navigation }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
+const NotFoundScreen = ({ navigation }: RootStackScreenProps<'NotFound'>) => {
   return (
     <Center safeArea flex={1}>
       <Heading size="md">This screen doesn't exist.</Heading>

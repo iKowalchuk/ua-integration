@@ -10,15 +10,15 @@ import {
   useToast,
   VStack,
 } from 'native-base';
-import { StackScreenProps } from '@react-navigation/stack';
 import { Platform } from 'react-native';
 
-import { AuthStackParamList } from '../types';
 import { useAuthContext } from '../hooks/useAuth';
 import login from '../api/login';
 import { useProjectsContext } from '../hooks/useProjects';
 
-const LoginScreen = ({ navigation }: StackScreenProps<AuthStackParamList, 'Login'>) => {
+import { RootStackScreenProps } from '../types';
+
+const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const { setAuth } = useAuthContext();
   const { project, projectTokens, setProjectToken } = useProjectsContext();
   const toast = useToast();

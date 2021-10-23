@@ -6,7 +6,9 @@ import getUser, { User } from '../api/getUser';
 import logout from '../api/logout';
 import { useProjectsContext } from '../hooks/useProjects';
 
-const SettingsScreen = () => {
+import { RootTabScreenProps } from '../types';
+
+const SettingsScreen = ({ navigation }: RootTabScreenProps<'Settings'>) => {
   const { auth, removeAuth } = useAuthContext();
   const { removeProject, removeProjectToken } = useProjectsContext();
 

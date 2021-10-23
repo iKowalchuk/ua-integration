@@ -17,6 +17,7 @@ import login from '../api/login';
 import { useProjectsContext } from '../hooks/useProjects';
 
 import { RootStackScreenProps } from '../types';
+import { v4 as uuidv4 } from 'uuid';
 
 const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const { setAuth } = useAuthContext();
@@ -65,9 +66,11 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     }
   }, []);
 
+  const token = uuidv4();
+
   return (
     <KeyboardAvoidingView flex={1} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Center safeArea flex={1}>
+      <Center flex={1}>
         <Box p={2} w="90%">
           <Heading size="lg" color="primary.500">
             Welcome
@@ -75,7 +78,6 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
           <Heading color="muted.400" size="xs">
             Sign in to continue!
           </Heading>
-
           <VStack space={2} mt={5}>
             <FormControl isInvalid={isSubmit && !formData.login}>
               <FormControl.Label _text={{ fontSize: 'sm', fontWeight: 600 }}>

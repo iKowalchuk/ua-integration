@@ -23,7 +23,7 @@ import ProjectsScreen from '../screens/ProjectsScreen';
 import { RootStackParamList, RootTabParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+const Navigation = ({ colorScheme }: { colorScheme: ColorSchemeName }) => {
   const { auth } = useAuthContext();
 
   if (auth.type === 'initial') {
@@ -35,44 +35,48 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
-      {auth.type === 'authenticated' ? <RootNavigator /> : <AuthNavigator />}
+      <RootNavigator />
     </NavigationContainer>
   );
-}
+};
+
+export default Navigation;
 
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const AuthStack = createNativeStackNavigator<RootStackParamList>();
 
-function AuthNavigator() {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const RootNavigator = () => {
+  const { auth } = useAuthContext();
+
   return (
-    <AuthStack.Navigator>
-      <AuthStack.Screen
-        name="Projects"
-        component={ProjectsScreen}
-        options={{ headerShown: false }}
-      />
-      <AuthStack.Screen name="Login" component={LoginScreen} />
-    </AuthStack.Navigator>
-  );
-}
+    <Stack.Navigator>
+      {auth.type === 'unauthenticated' ? (
+        <>
+          <Stack.Screen
+            name="Projects"
+            component={ProjectsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
-
-function RootNavigator() {
-  return (
-    <RootStack.Navigator>
-      <RootStack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-    </RootStack.Navigator>
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </Stack.Navigator>
   );
-}
+};
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -80,7 +84,7 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+const BottomTabNavigator = () => {
   const colorScheme = useColorScheme();
 
   return (
@@ -116,11 +120,14 @@ function BottomTabNavigator() {
       />
     </BottomTab.Navigator>
   );
-}
+};
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
+const TabBarIcon = (props: {
+  name: React.ComponentProps<typeof Ionicons>['name'];
+  color: string;
+}) => {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+};

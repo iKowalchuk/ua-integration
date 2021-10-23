@@ -42,9 +42,9 @@ const SettingsScreen = ({ navigation }: RootTabScreenProps<'Settings'>) => {
     try {
       setIsLogout(true);
       await logout({ token: auth.token });
-      await removeAuth();
       await removeProject();
       await removeProjectToken();
+      await removeAuth();
     } finally {
       setIsLogout(false);
     }

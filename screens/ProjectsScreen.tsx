@@ -30,8 +30,8 @@ const Projects = ({ navigation }: RootTabScreenProps<'Projects'>) => {
   };
 
   const handleClick = async (project: Project) => {
-    await removeAuth();
     await setProject(project);
+    await removeAuth();
     navigation.push('Login');
   };
 
@@ -51,59 +51,53 @@ const Projects = ({ navigation }: RootTabScreenProps<'Projects'>) => {
     return null;
   }
 
-  const Tab = createMaterialTopTabNavigator();
-
-  if (projectTokens.length) {
+  if (projectTokens.length === 0) {
     return (
-      <Tab.Navigator>
-        <Tab.Screen
-          name="My"
-          component={() => (
-            <Box mt="5">
-              <FlatList
-                data={authProjects}
-                renderItem={({ item }) => (
-                  <Button mx="4" mb="2" onPress={() => handleClick(item)}>
-                    {item.descr}
-                  </Button>
-                )}
-                keyExtractor={item => item.descr + item.id}
-              />
-            </Box>
-          )}
-        />
-        <Tab.Screen
-          name="Other"
-          component={() => (
-            <Box mt="5">
-              <FlatList
-                data={noAuthProjects}
-                renderItem={({ item }) => (
-                  <Button mx="4" mb="2" onPress={() => handleClick(item)}>
-                    {item.descr}
-                  </Button>
-                )}
-                keyExtractor={item => item.descr + item.id}
-              />
-            </Box>
-          )}
-        />
-      </Tab.Navigator>
-    );
-  }
-
-  return (
-    <Box mt="5">
       <FlatList
         data={projects}
         renderItem={({ item }) => (
-          <Button mb="2" onPress={() => handleClick(item)}>
+          <Button mx="4" mb="2" onPress={() => handleClick(item)}>
             {item.descr}
           </Button>
         )}
         keyExtractor={item => item.descr + item.id}
       />
-    </Box>
+    );
+  }
+
+  const authProjectsComponent = () => (
+    <FlatList
+      mt="5"
+      data={authProjects}
+      renderItem={({ item }) => (
+        <Button mx="4" mb="2" onPress={() => handleClick(item)}>
+          {item.descr}
+        </Button>
+      )}
+      keyExtractor={item => item.descr + item.id}
+    />
+  );
+
+  const noAuthProjectsComponent = () => (
+    <FlatList
+      mt="5"
+      data={noAuthProjects}
+      renderItem={({ item }) => (
+        <Button mx="4" mb="2" onPress={() => handleClick(item)}>
+          {item.descr}
+        </Button>
+      )}
+      keyExtractor={item => item.descr + item.id}
+    />
+  );
+
+  const Tab = createMaterialTopTabNavigator();
+
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="My" component={authProjectsComponent} />
+      <Tab.Screen name="Other" component={noAuthProjectsComponent} />
+    </Tab.Navigator>
   );
 };
 
@@ -115,16 +109,16 @@ const ProjectsScreen = (props: RootTabScreenProps<'Projects'>) => {
   }
 
   return (
-    <Box safeArea flex="1" p="4">
-      <Heading size="lg" color="primary.500">
-        Projects
-      </Heading>
-      <Heading color="muted.400" size="xs">
-        Select to continue!
-      </Heading>
-      <Box mt="5">
-        <Projects {...props} />
+    <Box safeArea flex="1">
+      <Box p="4">
+        <Heading size="lg" color="primary.500">
+          Projects
+        </Heading>
+        <Heading color="muted.400" size="xs">
+          Select to continue!
+        </Heading>
       </Box>
+      <Projects {...props} />
     </Box>
   );
 };

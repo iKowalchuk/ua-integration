@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Button,
   Center,
   FormControl,
   Heading,
+  HStack,
   Input,
   KeyboardAvoidingView,
+  Spinner,
   useToast,
   VStack,
 } from 'native-base';
@@ -17,7 +19,6 @@ import login from '../api/login';
 import { useProjectsContext } from '../hooks/useProjects';
 
 import { RootStackScreenProps } from '../types';
-import { v4 as uuidv4 } from 'uuid';
 
 const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const { setAuth } = useAuthContext();
@@ -54,19 +55,33 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     }
   };
 
+  const token = useMemo(() => {
+    return projectTokens?.find(item => item.projectId === project?.id)?.token;
+  }, [projectTokens, project]);
+
   useEffect(() => {
     if (!project) {
       navigation.push('Projects');
       return;
     }
 
-    const token = projectTokens?.find(item => item.projectId === project?.id)?.token;
     if (token) {
       setAuth(token);
     }
   }, []);
 
-  const token = uuidv4();
+  if (token) {
+    return (
+      <Center flex={1} px="3">
+        <HStack space={2} alignItems="center">
+          <Spinner accessibilityLabel="Loading posts" />
+          <Heading color="primary.500" fontSize="md">
+            Loading
+          </Heading>
+        </HStack>
+      </Center>
+    );
+  }
 
   return (
     <KeyboardAvoidingView flex={1} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

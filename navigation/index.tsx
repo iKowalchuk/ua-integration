@@ -9,6 +9,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
+import i18n from 'i18n-js';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -61,7 +62,13 @@ const RootNavigator = () => {
             component={ProjectsScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              title: i18n.t('common.login_screen'),
+            }}
+          />
         </>
       ) : (
         <>
@@ -73,7 +80,11 @@ const RootNavigator = () => {
         </>
       )}
 
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: i18n.t('common.not_found_screen') }}
+      />
     </Stack.Navigator>
   );
 };
@@ -98,7 +109,7 @@ const BottomTabNavigator = () => {
         name="Control"
         component={ControlScreen}
         options={{
-          title: 'Control',
+          title: i18n.t('common.control_screen'),
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-key-outline" color={color} />,
         }}
       />
@@ -106,7 +117,7 @@ const BottomTabNavigator = () => {
         name="Projects"
         component={ProjectsScreen}
         options={{
-          title: 'Projects',
+          title: i18n.t('common.projects_screen'),
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-business-outline" color={color} />,
         }}
       />
@@ -114,7 +125,7 @@ const BottomTabNavigator = () => {
         name="Settings"
         component={SettingsScreen}
         options={{
-          title: 'Settings',
+          title: i18n.t('common.settings_screen'),
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-settings-outline" color={color} />,
         }}
       />

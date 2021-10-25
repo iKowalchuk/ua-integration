@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Heading, FlatList } from 'native-base';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import i18n from 'i18n-js';
 
 import { useProjectsContext } from '../hooks/useProjects';
 import getProjects, { Project } from '../api/getProjects';
@@ -112,10 +113,10 @@ const ProjectsScreen = (props: RootTabScreenProps<'Projects'>) => {
     <Box safeArea flex="1">
       <Box p="4">
         <Heading size="lg" color="primary.500">
-          Projects
+          {i18n.t('projects.projects_title')}
         </Heading>
         <Heading color="muted.400" size="xs">
-          Select to continue!
+          {i18n.t('projects.select_to_continue_subtitle')}
         </Heading>
       </Box>
       <Projects {...props} />

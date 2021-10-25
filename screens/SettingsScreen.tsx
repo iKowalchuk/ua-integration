@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Center, Heading, Text } from 'native-base';
+import i18n from 'i18n-js';
 
 import { useAuthContext } from '../hooks/useAuth';
 import getUser, { User } from '../api/getUser';
@@ -64,7 +65,7 @@ const SettingsScreen = ({ navigation }: RootTabScreenProps<'Settings'>) => {
         <Text fontSize="sm">{user?.nameHouse || '-'}</Text>
       </Center>
       <Button variant="outline" onPress={handleLogout} mt={18} isLoading={isLogout}>
-        Logout
+        {i18n.t('settings.logout_button')}
       </Button>
     </Center>
   );

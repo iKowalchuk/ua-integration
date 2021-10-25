@@ -14,7 +14,12 @@ const linking: LinkingOptions<RootStackParamList> = {
   config: {
     screens: {
       Login: 'login',
-      Projects: 'projects',
+      Projects: {
+        screens: {
+          My: 'my',
+          Other: 'other',
+        },
+      },
       Root: {
         screens: {
           Control: {
@@ -24,12 +29,8 @@ const linking: LinkingOptions<RootStackParamList> = {
           },
           Projects: {
             screens: {
-              Projects: {
-                screens: {
-                  My: 'projects/my',
-                  Other: 'projects/other',
-                },
-              },
+              My: 'projects/my',
+              Other: 'projects/other',
             },
           },
           Settings: {

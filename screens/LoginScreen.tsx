@@ -13,6 +13,7 @@ import {
   VStack,
 } from 'native-base';
 import { Platform } from 'react-native';
+import i18n from 'i18n-js';
 
 import { useAuthContext } from '../hooks/useAuth';
 import login from '../api/login';
@@ -46,7 +47,7 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
       setProjectToken(token);
     } catch {
       toast.show({
-        title: 'Incorrect username or password.',
+        title: i18n.t('login.incorrect_username_or_password_error'),
         status: 'error',
         placement: 'top',
       });
@@ -76,7 +77,7 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
         <HStack space={2} alignItems="center">
           <Spinner accessibilityLabel="Loading posts" />
           <Heading color="primary.500" fontSize="md">
-            Loading
+            {i18n.t('login.loading_label')}
           </Heading>
         </HStack>
       </Center>
@@ -88,27 +89,29 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
       <Center flex={1}>
         <Box p={2} w="90%">
           <Heading size="lg" color="primary.500">
-            Welcome
+            {i18n.t('login.welcome_title')}
           </Heading>
           <Heading color="muted.400" size="xs">
-            Sign in to continue!
+            {i18n.t('login.sign_in_to_continue_subtitle')}
           </Heading>
           <VStack space={2} mt={5}>
             <FormControl isInvalid={isSubmit && !formData.login}>
               <FormControl.Label _text={{ fontSize: 'sm', fontWeight: 600 }}>
-                Login
+                {i18n.t('login.login_label')}
               </FormControl.Label>
               <Input
                 size="xl"
                 value={formData.login}
                 onChangeText={value => setFormData({ ...formData, login: value })}
               />
-              <FormControl.ErrorMessage>Login is required</FormControl.ErrorMessage>
+              <FormControl.ErrorMessage>
+                {i18n.t('login.login_is_required_error')}
+              </FormControl.ErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={isSubmit && !formData.password}>
               <FormControl.Label _text={{ fontSize: 'sm', fontWeight: 600 }}>
-                Password
+                {i18n.t('login.password_label')}
               </FormControl.Label>
               <Input
                 size="xl"
@@ -116,7 +119,9 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
                 value={formData.password}
                 onChangeText={value => setFormData({ ...formData, password: value })}
               />
-              <FormControl.ErrorMessage>Password is required</FormControl.ErrorMessage>
+              <FormControl.ErrorMessage>
+                {i18n.t('login.password_is_required_error')}
+              </FormControl.ErrorMessage>
             </FormControl>
 
             <Button
@@ -126,7 +131,7 @@ const LoginScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
               onPress={handleLogin}
               isLoading={isLoading}
             >
-              Login
+              {i18n.t('login.login_button')}
             </Button>
           </VStack>
         </Box>

@@ -96,8 +96,8 @@ const Projects = ({ navigation }: RootTabScreenProps<'Projects'>) => {
 
   return (
     <Tab.Navigator>
-      <Tab.Screen name="My" component={authProjectsComponent} />
-      <Tab.Screen name="Other" component={noAuthProjectsComponent} />
+      <Tab.Screen name={i18n.t('projects.my_label')} component={authProjectsComponent} />
+      <Tab.Screen name={i18n.t('projects.other_label')} component={noAuthProjectsComponent} />
     </Tab.Navigator>
   );
 };

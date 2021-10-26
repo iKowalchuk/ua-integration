@@ -19,7 +19,9 @@
   },
   "projects": {
     "projects_title": "Проекты",
-    "select_to_continue_subtitle": "Выберите, чтобы продолжить!"
+    "select_to_continue_subtitle": "Выберите, чтобы продолжить!",
+    "my_label": "Мои",
+    "other_label": "Другие"
   },
   "settings": {
     "settings": "Настройки",

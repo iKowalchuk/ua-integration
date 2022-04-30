@@ -23,10 +23,12 @@
       "bundleIdentifier": "com.ua-integration"
     },
     "android": {
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ua.integration"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
